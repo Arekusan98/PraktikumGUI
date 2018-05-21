@@ -1,5 +1,5 @@
 /*
- * Praktikum 2
+ * Praktikum 3
  *
  * Alexander Manger 754969
  * Maciej Krzyszton 756037
@@ -19,6 +19,10 @@ public:
     double getPrice();
 
     long getTravelId();
+
+    string getFromDate();
+
+    string getToDate();
 
 protected:
     long id;

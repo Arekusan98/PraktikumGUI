@@ -48,7 +48,7 @@
         <number>3</number>
        </property>
        <attribute name="horizontalHeaderVisible">
-        <bool>true</bool>
+        <bool>false</bool>
        </attribute>
        <attribute name="horizontalHeaderCascadingSectionResizes">
         <bool>false</bool>
@@ -89,10 +89,10 @@
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QCalendarWidget" name="calendarWidget_2"/>
+        <widget class="QCalendarWidget" name="calendarWidgetToDate"/>
        </item>
        <item row="3" column="1">
-        <widget class="QCalendarWidget" name="calendarWidget"/>
+        <widget class="QCalendarWidget" name="calendarWidgetFromDate"/>
        </item>
        <item row="2" column="1">
         <widget class="QLineEdit" name="lineEdit"/>

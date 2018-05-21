@@ -1,3 +1,10 @@
+/*
+ * Praktikum 3
+ *
+ * Alexander Manger 754969
+ * Maciej Krzyszton 756037
+ *
+*/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "travelagency.h"
@@ -11,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionDatei_einlesen, SIGNAL(triggered(bool)),this,SLOT(on_actionDateiEinlesen_clicked()));
     connect(ui->actionBuchungen_anzeigen, SIGNAL(triggered(bool)),this,SLOT(on_actionBuchungenAnzeigen_clicked()));
     connect(ui->actionProgramm_beenden, SIGNAL(triggered(bool)),this,SLOT(on_actionProgrammBeenden_clicked()));
+    connect(ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(on_actionItem_clicked(QListWidgetItem*)));
+    connect(ui->tableWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this,SLOT(on_actionRow_clicked(QTableWidgetItem*)));
 }
 
 MainWindow::~MainWindow()
@@ -20,7 +29,7 @@ MainWindow::~MainWindow()
 
 Customer *MainWindow::findCustomer(long id)
 {
-    for(int i = 0; i < allCustomers.size(); i++){
+    for(unsigned int i = 0; i < allCustomers.size(); i++){
         if(allCustomers.at(i)->getId() == id){
             return allCustomers.at(i);
         }
@@ -30,7 +39,7 @@ Customer *MainWindow::findCustomer(long id)
 
 Travel *MainWindow::findTravel(long id)
 {
-    for(int i = 0; i < allTravels.size(); i++){
+    for(unsigned int i = 0; i < allTravels.size(); i++){
         if(allTravels.at(i)->getId() == id){
             return allTravels.at(i);
         }
@@ -40,7 +49,7 @@ Travel *MainWindow::findTravel(long id)
 
 Booking *MainWindow::findBooking(long id)
 {
-    for(int i = 0; i < allBookings.size(); i++){
+    for(unsigned int i = 0; i < allBookings.size(); i++){
         if(allBookings.at(i)->getId() == id){
             return allBookings.at(i);
         }
@@ -112,6 +121,55 @@ void MainWindow::on_actionBuchungenAnzeigen_clicked(){
 void MainWindow::on_actionProgrammBeenden_clicked()
 {
     QCoreApplication::quit();
+}
+
+void MainWindow::on_actionItem_clicked(QListWidgetItem* item)
+{
+    std::string id = item->text().split("\t")[0].toStdString();
+    Booking* book = findBooking(stol(id));
+    std::string fromDate = book->getFromDate();
+    std::string toDate = book->getToDate();
+
+    ui->lineEdit->setText(item->text().split("\t")[0]);
+
+    std::string year = fromDate.substr(0,4);
+    std::string month = fromDate.substr(4,2);
+    std::string day = fromDate.substr(6,2);
+    QDate qFromDate;
+    qFromDate.setDate(stoi(year), stoi(month), stoi(day));
+    ui->calendarWidgetFromDate->setSelectedDate(qFromDate);
+
+    year = toDate.substr(0,4);
+    month = toDate.substr(4,2);
+    day = toDate.substr(6,2);
+    QDate qToDate;
+    qToDate.setDate(stoi(year), stoi(month), stoi(day));
+    ui->calendarWidgetToDate->setSelectedDate(qToDate);
+}
+
+void MainWindow::on_actionRow_clicked(QTableWidgetItem *item)
+{
+    QTableWidgetItem* idCellObjPtr = ui->tableWidget->item(item->row(), 0);
+    std::string id = idCellObjPtr->text().toStdString();
+    Booking* book = findBooking(stol(id));
+    std::string fromDate = book->getFromDate();
+    std::string toDate = book->getToDate();
+
+    ui->lineEdit->setText(QString::fromStdString(id));
+
+    std::string year = fromDate.substr(0,4);
+    std::string month = fromDate.substr(4,2);
+    std::string day = fromDate.substr(6,2);
+    QDate qFromDate;
+    qFromDate.setDate(stoi(year), stoi(month), stoi(day));
+    ui->calendarWidgetFromDate->setSelectedDate(qFromDate);
+
+    year = toDate.substr(0,4);
+    month = toDate.substr(4,2);
+    day = toDate.substr(6,2);
+    QDate qToDate;
+    qToDate.setDate(stoi(year), stoi(month), stoi(day));
+    ui->calendarWidgetToDate->setSelectedDate(qToDate);
 }
 
 

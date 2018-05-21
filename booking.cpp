@@ -1,5 +1,5 @@
 /*
- * Praktikum 2
+ * Praktikum 3
  *
  * Alexander Manger 754969
  * Maciej Krzyszton 756037
@@ -30,4 +30,14 @@ double Booking::getPrice()
 long Booking::getTravelId()
 {
     return travelId;
+}
+
+string Booking::getFromDate()
+{
+    return fromDate;
+}
+
+string Booking::getToDate()
+{
+    return toDate;
 }

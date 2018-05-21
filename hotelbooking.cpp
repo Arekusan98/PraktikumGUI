@@ -1,5 +1,5 @@
 /*
- * Praktikum 2
+ * Praktikum 3
  *
  * Alexander Manger 754969
  * Maciej Krzyszton 756037
