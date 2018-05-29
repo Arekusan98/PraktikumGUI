@@ -27,51 +27,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-Customer *MainWindow::findCustomer(long id)
-{
-    for(unsigned int i = 0; i < allCustomers.size(); i++){
-        if(allCustomers.at(i)->getId() == id){
-            return allCustomers.at(i);
-        }
-    }
-    return NULL;
-}
 
-Travel *MainWindow::findTravel(long id)
-{
-    for(unsigned int i = 0; i < allTravels.size(); i++){
-        if(allTravels.at(i)->getId() == id){
-            return allTravels.at(i);
-        }
-    }
-    return NULL;
-}
-
-Booking *MainWindow::findBooking(long id)
-{
-    for(unsigned int i = 0; i < allBookings.size(); i++){
-        if(allBookings.at(i)->getId() == id){
-            return allBookings.at(i);
-        }
-    }
-    return NULL;
-}
 
 void MainWindow::on_actionDateiEinlesen_clicked(){
-    TravelAgency travelagency;
-    travelagency.readFile();
-    allBookings = travelagency.getAllBookings();
-    allCustomers = travelagency.getAllCustomers();
-    allTravels = travelagency.getAllTravels();
+    travelagency->readFile();
     double sumPrice = 0;
-    for(unsigned int i = 0; i < allBookings.size(); i++){
-
-       sumPrice += allBookings.at(i)->getPrice();
-
-       
+    for(unsigned int i = 0; i < travelagency->getAllBookings().size(); i++){
+       sumPrice += travelagency->getAllBookings().at(i)->getPrice();
     }
 
-    std::string ausgabe = "Es wurden " + std::to_string(allBookings.size()) + " Buchungen, " + std::to_string(allCustomers.size()) + " Kunden und " + std::to_string(allTravels.size()) +" Reisen im Gesamtwert von "+std::to_string(sumPrice)+" eingelesen";
+    std::string ausgabe = "Es wurden " + std::to_string(travelagency->getAllBookings().size()) + " Buchungen, " + std::to_string(travelagency->getAllCustomers().size()) + " Kunden und " + std::to_string(travelagency->getAllTravels().size()) +" Reisen im Gesamtwert von "+std::to_string(sumPrice)+" eingelesen";
      QMessageBox::information(this, tr("Einleseergebnis"), QString::fromStdString(ausgabe));
 
 }
@@ -81,24 +46,24 @@ void MainWindow::on_actionBuchungenAnzeigen_clicked(){
     QString header;
     header = "Buchungsnummer\tPreis\tKunde";
     ui->listWidget->addItem(header);
-    ui->tableWidget->setRowCount(allBookings.size());
+    ui->tableWidget->setRowCount(travelagency->getAllBookings().size());
     QStringList headerLabels;
     headerLabels << "Buchungsnummer" << "Preis" << "Kunde";
     ui->tableWidget->setHorizontalHeaderLabels(headerLabels);
-    for(unsigned int i = 0; i < allBookings.size(); i++){
+    for(unsigned int i = 0; i < travelagency->getAllBookings().size(); i++){
 
-        long travelid = allBookings.at(i)->getTravelId();
-        Travel* trav = findTravel(travelid);
+        long travelid = travelagency->getAllBookings().at(i)->getTravelId();
+        Travel* trav = travelagency->findTravel(travelid);
         long customerid = trav->getCustomerId();
-        Customer* cust = findCustomer(customerid);
+        Customer* cust = travelagency->findCustomer(customerid);
         std::string customername = cust->getName();
 
-        double price = allBookings.at(i)->getPrice();
+        double price = travelagency->getAllBookings().at(i)->getPrice();
         std::stringstream stream;
         stream << std::fixed << std::setprecision(2) << price;
         std::string priceText = stream.str();
 
-        std::string bookingIdText = std::to_string(allBookings.at(i)->getId());
+        std::string bookingIdText = std::to_string(travelagency->getAllBookings().at(i)->getId());
 
 
         std::string rowText = bookingIdText + "\t\t" + priceText + "\t" + customername;
@@ -126,7 +91,7 @@ void MainWindow::on_actionProgrammBeenden_clicked()
 void MainWindow::on_actionItem_clicked(QListWidgetItem* item)
 {
     std::string id = item->text().split("\t")[0].toStdString();
-    Booking* book = findBooking(stol(id));
+    Booking* book = travelagency->findBooking(stol(id));
     std::string fromDate = book->getFromDate();
     std::string toDate = book->getToDate();
 
@@ -151,7 +116,7 @@ void MainWindow::on_actionRow_clicked(QTableWidgetItem *item)
 {
     QTableWidgetItem* idCellObjPtr = ui->tableWidget->item(item->row(), 0);
     std::string id = idCellObjPtr->text().toStdString();
-    Booking* book = findBooking(stol(id));
+    Booking* book = travelagency->findBooking(stol(id));
     std::string fromDate = book->getFromDate();
     std::string toDate = book->getToDate();
 

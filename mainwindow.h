@@ -31,9 +31,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    std::vector<Booking*>allBookings;
-    std::vector<Customer*>allCustomers;
-    std::vector<Travel*>allTravels;
+    //std::vector<Booking*>allBookings;
+    //std::vector<Customer*>allCustomers;
+    //std::vector<Travel*>allTravels;
+    TravelAgency* travelagency = new TravelAgency();
 
 private slots:
     void on_actionDateiEinlesen_clicked();
