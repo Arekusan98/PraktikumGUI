@@ -1,5 +1,5 @@
 /*
- * Praktikum 3
+ * Praktikum 4
  *
  * Alexander Manger 754969
  * Maciej Krzyszton 756037
@@ -59,10 +59,12 @@ while(!bookingFile.eof()){
         string toDest = text;
         getline(lineStream, text, '|');
         string airline = text;
+        getline(lineStream, text, '|');
+        string seatPref = text;
 
         FlightBooking* flight = new FlightBooking();
         flight->Booking::set(bookingId, price, fromDate, toDate, travelId);
-        flight->set(fromDest, toDest, airline);
+        flight->set(fromDest, toDest, airline, seatPref.at(0));
         this->setupBookingTravelCustomer(bookingId, price, travelId, fromDate, toDate, customerId, customerName);
         amountFlight++;
     }
@@ -74,11 +76,13 @@ while(!bookingFile.eof()){
         string returnLocation = text;
         getline(lineStream, text, '|');
         string company = text;
+        getline(lineStream, text, '|');
+        string insuranceType = text;
 
 
         RentalCarReservation* rental = new RentalCarReservation();
         rental->Booking::set(bookingId, price, fromDate, toDate, travelId);
-        rental->set(pickupLocation, returnLocation, company);
+        rental->set(pickupLocation, returnLocation, company, insuranceType);
         this->setupBookingTravelCustomer(bookingId, price, travelId, fromDate, toDate, customerId, customerName);
         amountRental++;
       }
@@ -88,10 +92,11 @@ while(!bookingFile.eof()){
         string hotel = text;
         getline(lineStream, text, '|');
         string town = text;
-
+        getline(lineStream, text, '|');
+        string smoke = text;
         HotelBooking* hotelbooking = new HotelBooking();
         hotelbooking->Booking::set(bookingId, price, fromDate, toDate, travelId);
-        hotelbooking->set(hotel, town);
+        hotelbooking->set(hotel, town, stoi(smoke));
         this->setupBookingTravelCustomer(bookingId, price, travelId, fromDate, toDate, customerId, customerName);
         amountHotel++;
       }
@@ -130,7 +135,7 @@ Travel* TravelAgency::findTravel(long id){
 }
 
 void TravelAgency::setupBookingTravelCustomer(long bookingId, double price, long travelId, string fromDate, string toDate, long customerId, string customerName){
-    Booking* booking = new Booking();
+    Booking* booking;
 
     if(!this->findBooking(bookingId)){
         booking->set(bookingId, price, fromDate, toDate, travelId );

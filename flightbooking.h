@@ -1,5 +1,5 @@
 /*
- * Praktikum 3
+ * Praktikum 4
  *
  * Alexander Manger 754969
  * Maciej Krzyszton 756037
@@ -16,11 +16,15 @@ class FlightBooking : public Booking
 {
 public:
     FlightBooking();
-    void set(string fromDest, string toDest, string airline);
+    void set(string fromDest, string toDest, string airline, char seatPref);
+
+    char getSeatPref() const;
+    virtual string showDetails();
 private:
     string fromDest;
     string toDest;
     string airline;
+    char seatPref;
 };
 
 #endif // FLIGHTBOOKING_H
