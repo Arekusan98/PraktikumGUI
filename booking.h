@@ -9,6 +9,7 @@
 #define BOOKING_H
 #include <string>
 #include <vector>
+#include "QDate"
 using namespace std;
 class Booking
 {
@@ -20,16 +21,17 @@ public:
 
     long getTravelId();
 
-    string getFromDate();
+    QDate getFromDate();
 
-    string getToDate();
+    QDate getToDate();
     virtual string showDetails() = 0;
+    virtual vector<string> getInfo() = 0;
 protected:
     long id;
     double price;
     long travelId;
-    string fromDate;
-    string toDate;
+    QDate fromDate;
+    QDate toDate;
 };
 
 #endif // BOOKING_H

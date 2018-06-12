@@ -8,6 +8,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "travelagency.h"
+#include "flightbooking.h"
+#include "rentalcarreservation.h"
+#include "hotelbooking.h"
 #include <iomanip>
 #include <sstream>
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionDatei_einlesen, SIGNAL(triggered(bool)),this,SLOT(on_actionDateiEinlesen_clicked()));
     connect(ui->actionBuchungen_anzeigen, SIGNAL(triggered(bool)),this,SLOT(on_actionBuchungenAnzeigen_clicked()));
     connect(ui->actionProgramm_beenden, SIGNAL(triggered(bool)),this,SLOT(on_actionProgrammBeenden_clicked()));
-    connect(ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(on_actionItem_clicked(QListWidgetItem*)));
     connect(ui->tableWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this,SLOT(on_actionRow_clicked(QTableWidgetItem*)));
 }
 
@@ -36,26 +38,21 @@ void MainWindow::on_actionDateiEinlesen_clicked(){
        sumPrice += travelagency->getAllBookings().at(i)->getPrice();
     }
 
-    std::string ausgabe = "Es wurden " + std::to_string(travelagency->getAllBookings().size()) + " Buchungen, " + std::to_string(travelagency->getAllCustomers().size()) + " Kunden und " + std::to_string(travelagency->getAllTravels().size()) +" Reisen im Gesamtwert von "+std::to_string(sumPrice)+" eingelesen";
+    std::string ausgabe = "Es wurden " + travelagency->getSizeOfBookingsAsString() + " Buchungen, " + travelagency->getSizeOfCustomersAsString() + " Kunden und " + travelagency->getSizeOfTravelsAsString() +" Reisen im Gesamtwert von "+std::to_string(sumPrice)+" eingelesen";
      QMessageBox::information(this, tr("Einleseergebnis"), QString::fromStdString(ausgabe));
 
 }
 
 void MainWindow::on_actionBuchungenAnzeigen_clicked(){
 
-    QString header;
-    header = "Buchungsnummer\tPreis\tKunde";
-    ui->listWidget->addItem(header);
     ui->tableWidget->setRowCount(travelagency->getAllBookings().size());
     QStringList headerLabels;
     headerLabels << "Buchungsnummer" << "Preis" << "Kunde";
     ui->tableWidget->setHorizontalHeaderLabels(headerLabels);
     for(unsigned int i = 0; i < travelagency->getAllBookings().size(); i++){
 
-        long travelid = travelagency->getAllBookings().at(i)->getTravelId();
-        Travel* trav = travelagency->findTravel(travelid);
-        long customerid = trav->getCustomerId();
-        Customer* cust = travelagency->findCustomer(customerid);
+        Travel* trav = travelagency->findTravel(travelagency->getAllBookings().at(i)->getTravelId());
+        Customer* cust = travelagency->findCustomer(trav->getCustomerId());
         std::string customername = cust->getName();
 
         double price = travelagency->getAllBookings().at(i)->getPrice();
@@ -67,8 +64,6 @@ void MainWindow::on_actionBuchungenAnzeigen_clicked(){
 
 
         std::string rowText = bookingIdText + "\t\t" + priceText + "\t" + customername;
-        QListWidgetItem* newItem = new QListWidgetItem(QString::fromStdString(rowText), ui->listWidget);
-        ui->listWidget->addItem(newItem);
 
         QTableWidgetItem* newBookingCellItem = new QTableWidgetItem(QString::fromStdString(bookingIdText));
         QTableWidgetItem* newPriceCellItem = new QTableWidgetItem(QString::fromStdString(priceText));
@@ -88,54 +83,49 @@ void MainWindow::on_actionProgrammBeenden_clicked()
     QCoreApplication::quit();
 }
 
-void MainWindow::on_actionItem_clicked(QListWidgetItem* item)
-{
-    std::string id = item->text().split("\t")[0].toStdString();
-    Booking* book = travelagency->findBooking(stol(id));
-    std::string fromDate = book->getFromDate();
-    std::string toDate = book->getToDate();
-
-    ui->lineEdit->setText(item->text().split("\t")[0]);
-
-    std::string year = fromDate.substr(0,4);
-    std::string month = fromDate.substr(4,2);
-    std::string day = fromDate.substr(6,2);
-    QDate qFromDate;
-    qFromDate.setDate(stoi(year), stoi(month), stoi(day));
-    ui->calendarWidgetFromDate->setSelectedDate(qFromDate);
-
-    year = toDate.substr(0,4);
-    month = toDate.substr(4,2);
-    day = toDate.substr(6,2);
-    QDate qToDate;
-    qToDate.setDate(stoi(year), stoi(month), stoi(day));
-    ui->calendarWidgetToDate->setSelectedDate(qToDate);
-}
-
 void MainWindow::on_actionRow_clicked(QTableWidgetItem *item)
 {
     QTableWidgetItem* idCellObjPtr = ui->tableWidget->item(item->row(), 0);
     std::string id = idCellObjPtr->text().toStdString();
     Booking* book = travelagency->findBooking(stol(id));
-    std::string fromDate = book->getFromDate();
-    std::string toDate = book->getToDate();
+    QDate fromDate = book->getFromDate();
+    QDate toDate = book->getToDate();
+    std::string price = std::to_string(book->getPrice());
+    std::string travel = std::to_string(travelagency->findTravel(book->getTravelId())->getCustomerId());
+    std::string customer = travelagency->findCustomer(travelagency->findTravel(book->getTravelId())->getCustomerId())->getName();
 
     ui->lineEdit->setText(QString::fromStdString(id));
+    ui->priceField->setText(QString::fromStdString(price));
+    ui->travelField->setText(QString::fromStdString(travel));
+    ui->customerField->setText(QString::fromStdString(customer));
+/*
+    ui->hotelNameDetailField->setText(book->getHotel());
+    ui->cityNameDetailField->setText(book->getTown());
+    ui->smokeDetailField->setText(book->showDetails());
+    */
+    ui->calendarWidgetFromDate->setSelectedDate(fromDate);
 
-    std::string year = fromDate.substr(0,4);
-    std::string month = fromDate.substr(4,2);
-    std::string day = fromDate.substr(6,2);
-    QDate qFromDate;
-    qFromDate.setDate(stoi(year), stoi(month), stoi(day));
-    ui->calendarWidgetFromDate->setSelectedDate(qFromDate);
+    ui->calendarWidgetToDate->setSelectedDate(toDate);
+    vector<string> infos = travelagency->getTypeAndInfo(stol(id));
+    if (infos.at(0)=="F"){
+        ui->fromDestDetailsField->setText(QString::fromStdString(infos.at(1)));
+        ui->toDestDetailsField->setText(QString::fromStdString(infos.at(2)));
+        ui->airlineDetailsField->setText(QString::fromStdString(infos.at(3)));
+        ui->seatPrefDetailsField->setText(QString::fromStdString(infos.at(4)));
+        ui->stackedWidget->setCurrentIndex(0);
+    }
+    if(infos.at(0)=="R"){
+        ui->pickupDestinationDetailsField->setText(QString::fromStdString(infos.at(1)));
+        ui->returnLocationDetailsField->setText(QString::fromStdString(infos.at(2)));
+        ui->CompanyDetailField->setText(QString::fromStdString(infos.at(3)));
+        ui->insuranceTypeDetailsField->setText(QString::fromStdString(infos.at(4)));
+        ui->stackedWidget->setCurrentIndex(2);
+    }
+    if(infos.at(0)=="H"){
+        ui->hotelNameDetailField->setText(QString::fromStdString(infos.at(1)));
+        ui->cityNameDetailField->setText(QString::fromStdString(infos.at(2)));
+        ui->smokeDetailField->setText(QString::fromStdString(infos.at(3)));
+        ui->stackedWidget->setCurrentIndex(1);
+    }
 
-    year = toDate.substr(0,4);
-    month = toDate.substr(4,2);
-    day = toDate.substr(6,2);
-    QDate qToDate;
-    qToDate.setDate(stoi(year), stoi(month), stoi(day));
-    ui->calendarWidgetToDate->setSelectedDate(qToDate);
 }
-
-
-

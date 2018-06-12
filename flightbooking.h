@@ -15,11 +15,13 @@ using namespace std;
 class FlightBooking : public Booking
 {
 public:
-    FlightBooking();
-    void set(string fromDest, string toDest, string airline, char seatPref);
-
+    FlightBooking(long id, double price, string fromDate, string toDate, long travelId, string fromDest, string toDest, string airline, char seatPref);
     char getSeatPref() const;
     virtual string showDetails();
+    string getFromDest();
+    string getToDest();
+    string getAirline();
+    vector<string> getInfo();
 private:
     string fromDest;
     string toDest;

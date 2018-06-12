@@ -15,9 +15,11 @@ using namespace std;
 class HotelBooking : public Booking
 {
 public:
-    HotelBooking();
-    void set(string hotel, string town, bool smoke);
+    HotelBooking(long id, double price, string fromDate, string toDate, long travelId, string hotel, string town, bool smoke);
     virtual string showDetails();
+    string getHotel();
+    string getTown();
+    vector<string> getInfo();
 private:
     string hotel;
     string town;

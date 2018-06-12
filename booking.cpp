@@ -14,8 +14,10 @@ Booking::Booking()
 void Booking::set(long id, double price, string fromDate, string toDate, long travelId){
     this->id = id;
     this->price = price;
-    this->fromDate = fromDate;
-    this->toDate = toDate;
+    this->fromDate.setDate(stoi(fromDate.substr(0,4)), stoi(fromDate.substr(4,2)), stoi(fromDate.substr(6,2)));
+
+    this->toDate.setDate(stoi(toDate.substr(0,4)), stoi(toDate.substr(4,2)), stoi(toDate.substr(6,2)));
+
     this->travelId = travelId;
 }
 long Booking::getId(){
@@ -32,12 +34,12 @@ long Booking::getTravelId()
     return travelId;
 }
 
-string Booking::getFromDate()
+QDate Booking::getFromDate()
 {
     return fromDate;
 }
 
-string Booking::getToDate()
+QDate Booking::getToDate()
 {
     return toDate;
 }

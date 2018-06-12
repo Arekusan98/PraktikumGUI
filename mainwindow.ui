@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1409</width>
-    <height>795</height>
+    <width>1414</width>
+    <height>804</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -30,9 +30,6 @@
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QListWidget" name="listWidget"/>
-     </item>
      <item>
       <widget class="QTableWidget" name="tableWidget">
        <property name="showGrid">
@@ -81,6 +78,33 @@
      </item>
      <item>
       <layout class="QFormLayout" name="formLayout_4">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Buchungsdetails</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Buchungsnummer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEdit"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>von</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCalendarWidget" name="calendarWidgetFromDate"/>
+       </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
@@ -91,31 +115,202 @@
        <item row="4" column="1">
         <widget class="QCalendarWidget" name="calendarWidgetToDate"/>
        </item>
-       <item row="3" column="1">
-        <widget class="QCalendarWidget" name="calendarWidgetFromDate"/>
+       <item row="5" column="0">
+        <layout class="QGridLayout" name="gridLayout"/>
        </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="lineEdit"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_3">
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Buchungsnummer</string>
+          <string>Preis</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="priceField"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>von</string>
+          <string>Reise</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_4">
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="travelField"/>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Buchungsdetails</string>
+          <string>Kunde</string>
          </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLineEdit" name="customerField"/>
+       </item>
+       <item row="9" column="1">
+        <widget class="QStackedWidget" name="stackedWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>100</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="FlightDetailWindow">
+          <widget class="QWidget" name="gridLayoutWidget_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>541</width>
+             <height>81</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="seatPrefDetailsField"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>Zieldestination</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="toDestDetailsField"/>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Abflugdestination</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>Sitzplatzpräferenz</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="fromDestDetailsField"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Airline</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="airlineDetailsField"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="HotelDetailsWindow">
+          <widget class="QWidget" name="gridLayoutWidget_4">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>551</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_15">
+              <property name="text">
+               <string>Stadt</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Hotel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>Raucherzimmer</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="hotelNameDetailField"/>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="cityNameDetailField"/>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="smokeDetailField"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="RentalCarReservationDetailsWindow">
+          <widget class="QWidget" name="gridLayoutWidget_3">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>541</width>
+             <height>81</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Abholstation</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>Versicherung</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Rückgabestation</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Autovermietung</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="CompanyDetailField"/>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="pickupDestinationDetailsField"/>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="returnLocationDetailsField"/>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="insuranceTypeDetailsField"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -128,7 +323,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1409</width>
+     <width>1414</width>
      <height>25</height>
     </rect>
    </property>

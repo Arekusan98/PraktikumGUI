@@ -15,9 +15,12 @@ using namespace std;
 class RentalCarReservation : public Booking
 {
 public:
-    RentalCarReservation();
-    void set(string pickupLocation, string returnLocation, string company, string insuranceType);
+    RentalCarReservation(long id, double price, string fromDate, string toDate, long travelId, string pickupLocation, string returnLocation, string company, string insuranceType);
     virtual string showDetails();
+    string getPickupLocation();
+    string getReturnLocation();
+    string getCompany();
+    vector<string> getInfo();
 private:
     string pickupLocation;
     string returnLocation;

@@ -49,7 +49,6 @@ while(!bookingFile.eof()){
     long travelId = stol(input.at(4));
     long customerId = stol(input.at(5));
     string customerName = input.at(6);
-
 //check type and then react accordingly
     if(!type.compare("F")){
 
@@ -61,11 +60,9 @@ while(!bookingFile.eof()){
         string airline = text;
         getline(lineStream, text, '|');
         string seatPref = text;
-
-        FlightBooking* flight = new FlightBooking();
-        flight->Booking::set(bookingId, price, fromDate, toDate, travelId);
-        flight->set(fromDest, toDest, airline, seatPref.at(0));
-        this->setupBookingTravelCustomer(bookingId, price, travelId, fromDate, toDate, customerId, customerName);
+        Booking* booking = nullptr;
+        booking = new FlightBooking(bookingId, price, fromDate, toDate, travelId, fromDest, toDest, airline, seatPref.at(0));
+        setupBookingTravelCustomer(bookingId, booking, travelId, customerId, customerName);
         amountFlight++;
     }
 
@@ -78,12 +75,9 @@ while(!bookingFile.eof()){
         string company = text;
         getline(lineStream, text, '|');
         string insuranceType = text;
-
-
-        RentalCarReservation* rental = new RentalCarReservation();
-        rental->Booking::set(bookingId, price, fromDate, toDate, travelId);
-        rental->set(pickupLocation, returnLocation, company, insuranceType);
-        this->setupBookingTravelCustomer(bookingId, price, travelId, fromDate, toDate, customerId, customerName);
+        Booking* booking = nullptr;
+        booking = new RentalCarReservation(bookingId, price, fromDate, toDate, travelId, pickupLocation, returnLocation, company, insuranceType);
+        setupBookingTravelCustomer(bookingId, booking, travelId, customerId, customerName);
         amountRental++;
       }
 
@@ -94,19 +88,14 @@ while(!bookingFile.eof()){
         string town = text;
         getline(lineStream, text, '|');
         string smoke = text;
-        HotelBooking* hotelbooking = new HotelBooking();
-        hotelbooking->Booking::set(bookingId, price, fromDate, toDate, travelId);
-        hotelbooking->set(hotel, town, stoi(smoke));
-        this->setupBookingTravelCustomer(bookingId, price, travelId, fromDate, toDate, customerId, customerName);
+        Booking* booking = nullptr;
+        booking = new HotelBooking(bookingId, price, fromDate, toDate, travelId, hotel, town, stoi(smoke));
+        setupBookingTravelCustomer(bookingId, booking, travelId, customerId, customerName);
         amountHotel++;
       }
    }
 bookingFile.close();
-/*
-cout << "Anzahl Bookings: "<< this->allBookings.size() << endl;
-cout << "Anzahl Customers: "<< this->allCustomers.size() << endl;
-cout << "Anzahl Travels: "<< this->allTravels.size()<< endl;
-*/}
+}
 
 
 Booking* TravelAgency::findBooking(long id){
@@ -134,11 +123,9 @@ Travel* TravelAgency::findTravel(long id){
     return NULL;
 }
 
-void TravelAgency::setupBookingTravelCustomer(long bookingId, double price, long travelId, string fromDate, string toDate, long customerId, string customerName){
-    Booking* booking;
+void TravelAgency::setupBookingTravelCustomer(long bookingId, Booking* booking, long travelId, long customerId, string customerName){
 
     if(!this->findBooking(bookingId)){
-        booking->set(bookingId, price, fromDate, toDate, travelId );
         this->allBookings.push_back(booking);
     }else{
         booking = this->findBooking(bookingId);
@@ -180,3 +167,20 @@ vector<Travel *> TravelAgency::getAllTravels()
     return allTravels;
 }
 
+string TravelAgency::getSizeOfTravelsAsString()
+{
+    return to_string(allTravels.size());
+}
+string TravelAgency::getSizeOfBookingsAsString()
+{
+    return to_string(allBookings.size());
+}
+string TravelAgency::getSizeOfCustomersAsString()
+{
+    return to_string(allCustomers.size());
+}
+vector<string> TravelAgency::getTypeAndInfo(long id){
+    vector<string> info = findBooking(id)->getInfo();
+    info.push_back(findBooking(id)->showDetails());
+    return info;
+}

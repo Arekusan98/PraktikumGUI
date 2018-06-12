@@ -8,7 +8,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QListWidget>
 #include <QMainWindow>
 #include <QTableWidget>
 #include <QMessageBox>
@@ -31,16 +30,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    //std::vector<Booking*>allBookings;
-    //std::vector<Customer*>allCustomers;
-    //std::vector<Travel*>allTravels;
     TravelAgency* travelagency = new TravelAgency();
 
 private slots:
     void on_actionDateiEinlesen_clicked();
     void on_actionBuchungenAnzeigen_clicked();
     void on_actionProgrammBeenden_clicked();
-    void on_actionItem_clicked(QListWidgetItem *item);
     void on_actionRow_clicked(QTableWidgetItem *item);
 };
 

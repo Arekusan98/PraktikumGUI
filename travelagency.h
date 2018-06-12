@@ -22,7 +22,8 @@ public:
     Booking* findBooking(long id);
     Travel* findTravel(long id);
     Customer* findCustomer(long id);
-    void setupBookingTravelCustomer(long bookingId, double price, long travelId, string fromDate, string toDate, long customerId, string customerName);
+    void setupBookingTravelCustomer(long bookingId, Booking *booking, long travelId, long customerId, string customerName);
+
 
     vector<Booking *> getAllBookings();
 
@@ -30,6 +31,11 @@ public:
 
     vector<Travel *> getAllTravels();
 
+    std::string getSizeOfBookingsAsString();
+    std::string getSizeOfCustomersAsString();
+    std::string getSizeOfTravelsAsString();
+    void getDetails(int i);
+    vector<string> getTypeAndInfo(long id);
 private:
     vector<Booking *> allBookings;
     vector<Customer*>allCustomers;
