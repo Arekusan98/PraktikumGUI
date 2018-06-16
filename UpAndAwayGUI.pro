@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,7 +34,8 @@ SOURCES += \
     travel.cpp \
     travelagency.cpp \
     mainwindow.cpp \
-    UnitTest.cpp
+    travelagencytest.cpp \
+    traveltest.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,7 +46,8 @@ HEADERS += \
     rentalcarreservation.h \
     travel.h \
     travelagency.h \
-    UnitTest.h
+    travelagencytest.h \
+    traveltest.h
 
 FORMS += \
         mainwindow.ui

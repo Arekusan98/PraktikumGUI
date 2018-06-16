@@ -115,5 +115,7 @@ bool Travel::checkMissingHotel()
             }
             }
         }
-    }
+        }else{
+            return false;
+        }
 }

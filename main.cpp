@@ -7,11 +7,14 @@
 */
 #include "mainwindow.h"
 #include <QApplication>
+#include "travelagencytest.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
 
+    TravelAgencyTest test;
+    QTest::qExec(&test);
     return a.exec();
 }
