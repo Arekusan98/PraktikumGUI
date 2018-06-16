@@ -27,3 +27,13 @@ vector<Travel*> Customer::getTravelList(){
 string Customer::getName(){
     return this->name;
 }
+
+int Customer::getDistance()
+{
+    return this->distance;
+}
+
+void Customer::setDistance(int value)
+{
+    this->distance = value;
+}

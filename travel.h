@@ -18,6 +18,11 @@ public:
     long getId();
     vector<Booking*> getTravelBookings();
     long getCustomerId();
+    bool checkRoundTrip();
+    bool checkNeedlessHotel();
+    bool checkMissingHotel();
+    Booking *findFirstBooking();
+    Booking *findLastBooking();
 private:
     long id;
     long customerId;

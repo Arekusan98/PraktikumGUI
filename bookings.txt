@@ -1,4 +1,4 @@
-F|70|1499.0|20150104|20150109|14|8|Volker Graul|FRA|ORD|United Airlines|W
+F|70|1499.0|20150104|20150104|14|8|Volker Graul|FRA|ORD|United Airlines|W
 R|71|466.0|20150104|20150109|14|8|Volker Graul|Chicago OHare Intl Airport|Chicago OHare Intl Airport|Avis|Vollkasko
 H|72|501.03|20150104|20150109|14|8|Volker Graul|Mark Twain Hotel|Peoria|0
 F|73|1358.0|20150109|20150110|14|8|Volker Graul|ORD|FRA|United Airlines|W

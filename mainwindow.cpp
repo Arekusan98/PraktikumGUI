@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionBuchungen_anzeigen, SIGNAL(triggered(bool)),this,SLOT(on_actionBuchungenAnzeigen_clicked()));
     connect(ui->actionProgramm_beenden, SIGNAL(triggered(bool)),this,SLOT(on_actionProgrammBeenden_clicked()));
     connect(ui->tableWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this,SLOT(on_actionRow_clicked(QTableWidgetItem*)));
+    connect(ui->searchButton, SIGNAL(clicked(bool)),this,SLOT(on_searchbutton_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -32,7 +33,12 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::on_actionDateiEinlesen_clicked(){
+    try{
     travelagency->readFile();
+    }catch(runtime_error e){
+        travelagency->reset();
+        QMessageBox::information(this, tr("ERROR"), QString::fromStdString(e.what()));
+    }
     double sumPrice = 0;
     for(unsigned int i = 0; i < travelagency->getAllBookings().size(); i++){
        sumPrice += travelagency->getAllBookings().at(i)->getPrice();
@@ -98,11 +104,7 @@ void MainWindow::on_actionRow_clicked(QTableWidgetItem *item)
     ui->priceField->setText(QString::fromStdString(price));
     ui->travelField->setText(QString::fromStdString(travel));
     ui->customerField->setText(QString::fromStdString(customer));
-/*
-    ui->hotelNameDetailField->setText(book->getHotel());
-    ui->cityNameDetailField->setText(book->getTown());
-    ui->smokeDetailField->setText(book->showDetails());
-    */
+
     ui->calendarWidgetFromDate->setSelectedDate(fromDate);
 
     ui->calendarWidgetToDate->setSelectedDate(toDate);
@@ -128,4 +130,13 @@ void MainWindow::on_actionRow_clicked(QTableWidgetItem *item)
         ui->stackedWidget->setCurrentIndex(1);
     }
 
+}
+
+void MainWindow::on_searchbutton_clicked(){
+    vector<Customer*> customers = travelagency->searchFunction((ui->searchbar->text()).toStdString());
+    string ausgabe = "ID\tName\n";
+    for(unsigned int i = 0; i < customers.size(); i++){
+        ausgabe = ausgabe + std::to_string(customers.at(i)->getId()) + "\t" + customers.at(i)->getName()+"\n";
+    }
+    QMessageBox::information(this, tr("test"), QString::fromStdString(ausgabe));
 }

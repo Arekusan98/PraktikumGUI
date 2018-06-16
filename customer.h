@@ -22,10 +22,15 @@ public:
     long getId();
     vector<Travel*> getTravelList();
     string getName();
+    int getDistance();
+
+    void setDistance(int value);
+
 private:
     long id;
     string name;
     vector<Travel*> travelList;
+    int distance;
 };
 
 #endif // CUSTOMER_H

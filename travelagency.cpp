@@ -21,12 +21,14 @@ TravelAgency::TravelAgency()
 
 }
 void TravelAgency::readFile(){
+int zeile = 0;
 fstream bookingFile;
 bookingFile.open("C:/repos/Praktikum3_GUI/UpAndAwayGUI/bookings.txt");
 int amountFlight = 0;
 int amountRental = 0;
 int amountHotel = 0;
 while(!bookingFile.eof()){
+    zeile++;
 //declaring Variables
     vector<string>input;
     string text;
@@ -38,28 +40,48 @@ while(!bookingFile.eof()){
     getline(lineStream, text, '|');
     string type = text;
 //get first information and assign to variables
-    for (int i = 0; i<7;i++){
+
+    for (unsigned int i = 0; i<7;i++){
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         input.push_back(text);
        }
-    long bookingId = stol(input.at(0));
-    double price = stod(input.at(1));
-    string fromDate = input.at(2);
-    string toDate = input.at(3);
-    long travelId = stol(input.at(4));
-    long customerId = stol(input.at(5));
-    string customerName = input.at(6);
-//check type and then react accordingly
+    long bookingId;
+    double price;
+    string fromDate;
+    string toDate;
+    long travelId;
+    long customerId;
+    string customerName;
+    try{
+    bookingId = stol(input.at(0));
+    price = stod(input.at(1));
+    fromDate = input.at(2);
+    toDate = input.at(3);
+    travelId = stol(input.at(4));
+    customerId = stol(input.at(5));
+    customerName = input.at(6);
+    }catch(exception e){
+       throw runtime_error("Es gab einen Fehler in Zeile " + to_string(zeile));
+    }
+    //check type and then react accordingly
     if(!type.compare("F")){
 
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string fromDest = text;
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string toDest = text;
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string airline = text;
-        getline(lineStream, text, '|');
+        getline(lineStream, text, '|');        
+        checkForMissingAttribute(text, zeile);
         string seatPref = text;
+
+
+
         Booking* booking = nullptr;
         booking = new FlightBooking(bookingId, price, fromDate, toDate, travelId, fromDest, toDest, airline, seatPref.at(0));
         setupBookingTravelCustomer(bookingId, booking, travelId, customerId, customerName);
@@ -68,12 +90,16 @@ while(!bookingFile.eof()){
 
     if(!type.compare("R")){
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string pickupLocation = text;
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string returnLocation = text;
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string company = text;
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string insuranceType = text;
         Booking* booking = nullptr;
         booking = new RentalCarReservation(bookingId, price, fromDate, toDate, travelId, pickupLocation, returnLocation, company, insuranceType);
@@ -83,10 +109,13 @@ while(!bookingFile.eof()){
 
     if(!type.compare("H")){
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string hotel = text;
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string town = text;
         getline(lineStream, text, '|');
+        checkForMissingAttribute(text, zeile);
         string smoke = text;
         Booking* booking = nullptr;
         booking = new HotelBooking(bookingId, price, fromDate, toDate, travelId, hotel, town, stoi(smoke));
@@ -97,9 +126,21 @@ while(!bookingFile.eof()){
 bookingFile.close();
 }
 
+void TravelAgency::checkForMissingAttribute(string text, int zeile){
+    if(text == "F"|| text == "H" || text == "R"){
+        throw runtime_error("Es gab einen Fehler in Zeile " + to_string(zeile));
+    }
+}
+
+void TravelAgency::reset()
+{
+    this->allBookings.clear();
+    this->allCustomers.clear();
+    this->allTravels.clear();
+}
 
 Booking* TravelAgency::findBooking(long id){
-    for(int i = 0; i < allBookings.size(); i++){
+    for(unsigned int i = 0; i < allBookings.size(); i++){
         if(allBookings.at(i)->getId() == id){
             return allBookings.at(i);
         }
@@ -107,7 +148,7 @@ Booking* TravelAgency::findBooking(long id){
     return NULL;
 }
 Customer* TravelAgency::findCustomer(long id){
-    for(int i = 0; i < allCustomers.size(); i++){
+    for(unsigned int i = 0; i < allCustomers.size(); i++){
         if(allCustomers.at(i)->getId() == id){
             return allCustomers.at(i);
         }
@@ -115,7 +156,7 @@ Customer* TravelAgency::findCustomer(long id){
     return NULL;
 }
 Travel* TravelAgency::findTravel(long id){
-    for(int i = 0; i < allTravels.size(); i++){
+    for(unsigned int i = 0; i < allTravels.size(); i++){
         if(allTravels.at(i)->getId() == id){
             return allTravels.at(i);
         }
@@ -183,4 +224,63 @@ vector<string> TravelAgency::getTypeAndInfo(long id){
     vector<string> info = findBooking(id)->getInfo();
     info.push_back(findBooking(id)->showDetails());
     return info;
+}
+
+vector<Customer *> TravelAgency::searchFunction(string input)
+{
+
+   vector<Customer*>customers;
+    for(unsigned int c = 0; c < allCustomers.size(); c++){
+
+        string wort_a = allCustomers.at(c)->getName();
+        string wort_b = input;
+
+        int mat[wort_a.length()+1][wort_b.length()+1];
+        mat[0][0] = 0;
+        for(unsigned int i = 1; i <= wort_a.length(); i++){
+            mat[i][0] = i;   //indizes für Zeile
+        }
+        for(unsigned int j = 1; j <= wort_a.length(); j++){
+            mat[0][j] = j; //indizes für Spalte
+        }
+        vector<int>compareList;
+        for(unsigned int i = 1; i <= wort_a.length(); i++){      //jede Zeile durchgehen
+            for(unsigned int j = 1; j<= wort_b.length(); j++){   //jede Spalte in einer Zeile durchgehen
+                compareList.clear();
+                if(wort_a[i-1] == wort_b[j-1]){
+                    compareList.push_back(mat[i-1][j-1]);   //diagonal links über aktueller Stelle
+                }else{
+                    compareList.push_back(mat[i-1][j-1]+1);//diagonal links über aktueller Stelle plus 1
+                }
+                compareList.push_back(mat[i][j-1]+1);   //über aktueller stelle +1
+                compareList.push_back(mat[i-1][j]+1);   //links von aktueller stelle +1
+
+                mat[i][j] = *(min_element(compareList.begin(), compareList.end())); //kleinstes element der liste auf die stelle schreiben
+            }
+        }
+
+        allCustomers.at(c)->setDistance(mat[wort_a.length()][wort_b.length()]);
+        customers.push_back(allCustomers.at(c));
+
+    }
+    bool sortActionDone = true;
+    while(sortActionDone){
+        sortActionDone = false;
+        for(unsigned int d = 0; d < customers.size(); d++){
+            Customer* temp = customers.at(d);
+            Customer* tempPlus1;
+            if(d+1<customers.size()){
+                tempPlus1 = customers.at(d+1);
+            }else{
+                tempPlus1 = customers.at(d);
+            }
+            if(temp->getDistance() > tempPlus1->getDistance()){
+                customers.at(d) = tempPlus1;
+                customers.at(d+1) = temp;
+                sortActionDone = true;
+            }
+        }
+    }
+
+    return customers;
 }

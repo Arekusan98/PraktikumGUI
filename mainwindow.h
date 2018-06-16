@@ -36,6 +36,7 @@ private slots:
     void on_actionDateiEinlesen_clicked();
     void on_actionBuchungenAnzeigen_clicked();
     void on_actionProgrammBeenden_clicked();
+    void on_searchbutton_clicked();
     void on_actionRow_clicked(QTableWidgetItem *item);
 };
 

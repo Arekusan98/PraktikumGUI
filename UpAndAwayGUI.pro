@@ -32,7 +32,8 @@ SOURCES += \
     rentalcarreservation.cpp \
     travel.cpp \
     travelagency.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    UnitTest.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +43,8 @@ HEADERS += \
     hotelbooking.h \
     rentalcarreservation.h \
     travel.h \
-    travelagency.h
+    travelagency.h \
+    UnitTest.h
 
 FORMS += \
         mainwindow.ui

@@ -36,6 +36,10 @@ public:
     std::string getSizeOfTravelsAsString();
     void getDetails(int i);
     vector<string> getTypeAndInfo(long id);
+    vector<Customer*> searchFunction(string input);
+    void checkForMissingAttribute(string text, int zeile);
+
+    void reset();
 private:
     vector<Booking *> allBookings;
     vector<Customer*>allCustomers;
