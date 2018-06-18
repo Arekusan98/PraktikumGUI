@@ -24,7 +24,7 @@ void TravelTest::checkMissingHotel()
     QCOMPARE(checkMissingHotelActual, false);
 }
 
-TravelTest::TravelTest()
+TravelTest::TravelTest(QObject *parent) : QObject(parent)
 {
 
 }

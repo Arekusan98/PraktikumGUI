@@ -35,18 +35,31 @@ long Travel::getCustomerId(){
 
 bool Travel::checkRoundTrip()
 {
-    if(dynamic_cast<FlightBooking*>(findFirstBooking()) != nullptr){
-    FlightBooking* firstFlight = dynamic_cast<FlightBooking*>(findFirstBooking());
-    firstFlight->getFromDest();
-    if(dynamic_cast<FlightBooking*>(findLastBooking()) != nullptr){
-    FlightBooking* lastFlight = dynamic_cast<FlightBooking*>(findLastBooking());
-        if(firstFlight == lastFlight){
-            return true;
-        }else{
+    if(dynamic_cast<FlightBooking*>(findFirstBooking()) != nullptr)
+    {
+        FlightBooking* firstFlight = dynamic_cast<FlightBooking*>(findFirstBooking());
+        firstFlight->getFromDest();
+        if(dynamic_cast<FlightBooking*>(findLastBooking()) != nullptr)
+        {
+            FlightBooking* lastFlight = dynamic_cast<FlightBooking*>(findLastBooking());
+            if(firstFlight == lastFlight)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
             return false;
         }
-    }else{return false;}
-    }else{return false;}
+    }
+    else
+    {
+        return false;
+    }
 }
 
 Booking* Travel::findFirstBooking(){
@@ -77,45 +90,55 @@ Booking* Travel::findLastBooking(){
 
 bool Travel::checkNeedlessHotel()
 {
-
-
     Booking* lastToDateBooking = travelBookings.at(0);
-    for(int i = 1; i < travelBookings.size(); i++){
-        if(travelBookings.at(i)->getToDate() < lastToDateBooking->getToDate()){
+    for(int i = 1; i < travelBookings.size(); i++)
+    {
+        if(travelBookings.at(i)->getToDate() < lastToDateBooking->getToDate())
+        {
             lastToDateBooking = travelBookings.at(i);
         }
     }
-    if(dynamic_cast<HotelBooking*>(lastToDateBooking) != nullptr){
-        for(int i = 0; i < travelBookings.size(); i++){
-            if(lastToDateBooking->getToDate() == travelBookings.at(i)->getToDate()){
-            return true;
+    if(dynamic_cast<HotelBooking*>(lastToDateBooking) != nullptr)
+    {
+        for(int i = 0; i < travelBookings.size(); i++)
+        {
+            if(lastToDateBooking->getToDate() == travelBookings.at(i)->getToDate())
+            {
+                return true;
             }
         }
         return false;
-    }else{
-        return true;
     }
-
+    else
+    {
+        return false;
+    }
 }
 
 bool Travel::checkMissingHotel()
 {
-        if(dynamic_cast<FlightBooking*>(travelBookings.at(0)) != nullptr){
-        bool traveling = true;
-        int travelcount = 1;
-        while(traveling){
-
-        if(dynamic_cast<HotelBooking*>(travelBookings.at(travelcount)) != nullptr){
-            return true;
-             }else{
-            if(dynamic_cast<FlightBooking*>(travelBookings.at(travelcount+1)) != nullptr){
-            travelcount++;
-            }else{
-                return false;
+    if(dynamic_cast<FlightBooking*>(travelBookings.at(0)) != nullptr)
+    {
+        for(int travelcount = 1; i < travelBookings.size(); i++){
+            if(dynamic_cast<HotelBooking*>(travelBookings.at(travelcount)) != nullptr)
+            {
+                return true;
             }
+            else
+            {
+                if(dynamic_cast<FlightBooking*>(travelBookings.at(travelcount+1)) != nullptr)
+                {
+                    travelcount++;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
-        }else{
-            return false;
-        }
+    }
+    else
+    {
+        return false;
+    }
 }

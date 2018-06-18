@@ -12,7 +12,7 @@ private slots:
     void checkRoundTrip();
     void checkMissingHotel();
 public:
-    TravelTest();
+    explicit TravelTest(QObject *parent = 0);
     TravelAgency CreateUut();
 };
 
