@@ -64,34 +64,36 @@ bool Travel::checkRoundTrip()
 
 Booking* Travel::findFirstBooking(){
     vector<long>IDs;
-    for(int i = 0; i < travelBookings.size(); i++){
+    for(unsigned int i = 0; i < travelBookings.size(); i++){
         IDs.push_back(travelBookings.at(i)->getId());
     }
     long firstBooking = *(min_element(IDs.begin(), IDs.end()));
-    for(int i = 0; i < travelBookings.size(); i++){
+    for(unsigned int i = 0; i < travelBookings.size(); i++){
         if(travelBookings.at(i)->getId() == firstBooking){
             return travelBookings.at(i);
         }
     }
+return nullptr;
 }
 
 Booking* Travel::findLastBooking(){
     vector<long>IDs;
-    for(int i = 0; i < travelBookings.size(); i++){
+    for(unsigned int i = 0; i < travelBookings.size(); i++){
         IDs.push_back(travelBookings.at(i)->getId());
     }
     long firstBooking = *(max_element(IDs.begin(), IDs.end()));
-    for(int i = 0; i < travelBookings.size(); i++){
+    for(unsigned int i = 0; i < travelBookings.size(); i++){
         if(travelBookings.at(i)->getId() == firstBooking){
             return travelBookings.at(i);
         }
     }
+    return nullptr;
 }
 
 bool Travel::checkNeedlessHotel()
 {
     Booking* lastToDateBooking = travelBookings.at(0);
-    for(int i = 1; i < travelBookings.size(); i++)
+    for(unsigned int i = 1; i < travelBookings.size(); i++)
     {
         if(travelBookings.at(i)->getToDate() < lastToDateBooking->getToDate())
         {
@@ -100,7 +102,7 @@ bool Travel::checkNeedlessHotel()
     }
     if(dynamic_cast<HotelBooking*>(lastToDateBooking) != nullptr)
     {
-        for(int i = 0; i < travelBookings.size(); i++)
+        for(unsigned int i = 0; i < travelBookings.size(); i++)
         {
             if(lastToDateBooking->getToDate() == travelBookings.at(i)->getToDate())
             {
@@ -119,7 +121,7 @@ bool Travel::checkMissingHotel()
 {
     if(dynamic_cast<FlightBooking*>(travelBookings.at(0)) != nullptr)
     {
-        for(int travelcount = 1; travelcount < travelBookings.size(); travelcount++){
+        for(unsigned int travelcount = 1; travelcount < travelBookings.size(); travelcount++){
             if(dynamic_cast<HotelBooking*>(travelBookings.at(travelcount)) != nullptr)
             {
                 return true;
@@ -141,4 +143,5 @@ bool Travel::checkMissingHotel()
     {
         return false;
     }
+return false;
 }
