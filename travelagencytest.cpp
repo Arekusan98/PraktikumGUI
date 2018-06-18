@@ -1,6 +1,6 @@
 #include "travelagencytest.h"
 
-TravelAgencyTest::TravelAgencyTest(QObject *parent)
+TravelAgencyTest::TravelAgencyTest(QObject *parent) : QObject(parent)
 {
 
 }
@@ -13,8 +13,8 @@ void TravelAgencyTest::readFile_CorrectNumberOfBookings(){
 
 void TravelAgencyTest::readFile_CorrectProportionOfSmokers()
 {
-    int smoker = 0;
-    int total = 0;
+    double smoker = 0;
+    double total = 0;
 
     TravelAgency travel;
     travel.readFile();
@@ -28,8 +28,7 @@ void TravelAgencyTest::readFile_CorrectProportionOfSmokers()
         }
     }
 
-    int percent = (smoker/total) * 100;
-
+    double percent = 100 - ((smoker/total) * 100);
     QCOMPARE(percent, 68);
 
 }
