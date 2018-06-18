@@ -119,7 +119,7 @@ bool Travel::checkMissingHotel()
 {
     if(dynamic_cast<FlightBooking*>(travelBookings.at(0)) != nullptr)
     {
-        for(int travelcount = 1; i < travelBookings.size(); i++){
+        for(int travelcount = 1; travelcount < travelBookings.size(); travelcount++){
             if(dynamic_cast<HotelBooking*>(travelBookings.at(travelcount)) != nullptr)
             {
                 return true;
