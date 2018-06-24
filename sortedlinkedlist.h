@@ -2,12 +2,12 @@
 #define SORTEDLINKEDLIST_H
 #include "linkedlist.h"
 
-
-class SortedLinkedList : public LinkedList
+template<class T>
+class SortedLinkedList : public LinkedList<T>
 {
 public:
     SortedLinkedList();
-    void insertNode(Booking* booking);
+    void insertNode(T* t);
 };
 
 #endif // SORTEDLINKEDLIST_H

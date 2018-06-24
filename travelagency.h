@@ -11,6 +11,7 @@
 #include "booking.h"
 #include "travel.h"
 #include "customer.h"
+#include "list.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ public:
     void setupBookingTravelCustomer(long bookingId, Booking *booking, long travelId, long customerId, string customerName);
 
 
-    vector<Booking *> getAllBookings();
+    List<Booking*> getAllBookings();
 
     vector<Customer *> getAllCustomers();
 
@@ -41,7 +42,8 @@ public:
 
     void reset();
 private:
-    vector<Booking *> allBookings;
+    //vector<Booking *> allBookings;
+    List<Booking*> allBookings;
     vector<Customer*>allCustomers;
     vector<Travel*>allTravels;
 };

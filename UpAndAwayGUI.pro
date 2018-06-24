@@ -35,9 +35,7 @@ SOURCES += \
     travelagency.cpp \
     mainwindow.cpp \
     travelagencytest.cpp \
-    traveltest.cpp \
-    linkedlist.cpp \
-    sortedlinkedlist.cpp
+    traveltest.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -50,9 +48,8 @@ HEADERS += \
     travelagency.h \
     travelagencytest.h \
     traveltest.h \
-    linkedlist.h \
     node.h \
-    sortedlinkedlist.h
+    list.h
 
 FORMS += \
         mainwindow.ui

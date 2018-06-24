@@ -193,7 +193,7 @@ void TravelAgency::setupBookingTravelCustomer(long bookingId, Booking* booking, 
     customer->addTravel(travel);
 }
 
-vector<Booking *> TravelAgency::getAllBookings()
+List<Booking *> TravelAgency::getAllBookings()
 {
     return allBookings;
 }

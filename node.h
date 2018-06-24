@@ -1,20 +1,19 @@
 #ifndef NODE_H
 #define NODE_H
-#include "booking.h"
-
+template<class T>
 class Node {
-public: Node (Booking* booking) : booking(booking), previousNode(NULL), nextNode(NULL) { }
+public: Node (T t) : t(t), previousNode(nullptr), nextNode(nullptr) { }
     Node* GetNextNode() const { return nextNode;}
     void SetNextNode(Node* nextNode) { this->nextNode = nextNode;}
     Node* GetPreviousNode() const {return previousNode;}
     void SetPreviousNode(Node* previousNode){
         this->previousNode = previousNode;
     }
-    Booking* GetData() const {return booking; }
-    void SetData(Booking* booking) {this->booking = booking;}
+    T GetData() const {return t; }
+    void SetData(T t) {this->t = t;}
 
 private:
-    Booking* booking;
+    T t;
     Node* previousNode;
     Node* nextNode;
 };

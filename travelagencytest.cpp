@@ -18,8 +18,8 @@ void TravelAgencyTest::readFile_CorrectProportionOfSmokers()
 
     TravelAgency travel;
     travel.readFile();
-    vector<Booking*> TestBookings = travel.getAllBookings();
-    for(int i = 0; i < TestBookings.size(); i++){
+    List<Booking*> TestBookings = travel.getAllBookings();
+    for(unsigned int i = 0; i < TestBookings.size(); i++){
         if(dynamic_cast<HotelBooking*>(TestBookings.at(i)) != nullptr){
             if(TestBookings.at(i)->showDetails() == "Raucher"){
                 smoker++;
